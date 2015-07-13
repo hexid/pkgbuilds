@@ -1,0 +1,8 @@
+# ignore everything in subdirectories
+/*/*
+# except for a select few
+!/*/PKGBUILD
+!/*/*.sh
+!/*/*.patch
+!/*/*.diff
+!/*/*.install

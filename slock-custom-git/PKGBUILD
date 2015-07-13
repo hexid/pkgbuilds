@@ -1,0 +1,42 @@
+pkgname=slock-custom-git
+_pkgname=slock
+pkgver=68.754195f
+pkgrel=1
+pkgdesc='Simple X display locker'
+url='http://tools.suckless.org/slock'
+arch=('i686' 'x86_64' 'armv7h')
+license=('MIT')
+depends=('libx11')
+makedepends=('libxext' 'git')
+source=("$_pkgname::git://git.suckless.org/slock")
+sha1sums=('SKIP')
+
+provides=("$_pkgname")
+conflicts=("$_pkgname" "$_pkgname-git")
+
+pkgver() {
+	cd "$srcdir/$_pkgname"
+	echo $(git rev-list --count master).$(git rev-parse --short master)
+}
+
+build() {
+	cd "$srcdir/$_pkgname"
+	sed -i config.mk \
+		-e 's/CPPFLAGS =/CPPFLAGS +=/g' \
+		-e 's/CFLAGS =/CFLAGS +=/g' \
+		-e 's/LDFLAGS =/LDFLAGS +=/g'
+
+	rm -f config.h
+
+	sed -i config.def.h \
+		-e 's/#005577/#a7a7a7/' \ # color during input
+		-e 's/failonclear = True/failonclear = False/'
+
+	make X11INC=/usr/include/X11 X11LIB=/usr/lib/X11
+}
+
+package() {
+	cd "$srcdir/$_pkgname"
+	make PREFIX=/usr DESTDIR="$pkgdir" install
+	install -Dm644 LICENSE "$pkgdir/usr/share/licenses/$pkgname/LICENSE"
+}
