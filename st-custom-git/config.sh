@@ -73,5 +73,7 @@ config_replace_eol 'static char shell\[\] =' "\"$SHELL\";"
 
 read_xresources
 
-config_replace_lines_between '^static const char \\*colorname\\[\\] = {' "$(print_colors)" '^};'
+if ((${#COLORS} + ${#ALTCOLORS})); then
+	config_replace_lines_between '^static const char \\*colorname\\[\\] = {' "$(print_colors)" '^};'
+fi
 config_replace_lines_between '^static Mousekey mshortcuts\\[\\] = {' "$(print_buttons)" '^};'
