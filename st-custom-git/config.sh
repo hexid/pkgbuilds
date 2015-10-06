@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 
 COLORS=()
-ALTCOLORS=()
+ALTCOLORS=('#cccccc' '#555555')
 
 config_replace_eol() {
 	sed -r -i config.def.h -e "s#($1).*#\1 $2#"
@@ -34,13 +34,17 @@ read_xresources() {
 				ALTCOLORS[0]="$val"
 				config_replace_eol 'static unsigned int defaultcs =' '256;'
 				;;
-			*background)
+			*cursorRev)
 				ALTCOLORS[1]="$val"
-				config_replace_eol 'static unsigned int defaultbg =' '257;'
+				config_replace_eol 'static unsigned int defaultrcs =' '257;'
+				;;
+			*background)
+				ALTCOLORS[2]="$val"
+				config_replace_eol 'static unsigned int defaultbg =' '258;'
 				;;
 			*foreground)
-				ALTCOLORS[2]="$val"
-				config_replace_eol 'static unsigned int defaultfg =' '258;'
+				ALTCOLORS[3]="$val"
+				config_replace_eol 'static unsigned int defaultfg =' '259;'
 				;;
 			*font)
 				config_replace_eol 'static char font\[\] =' "\"$val\";"
