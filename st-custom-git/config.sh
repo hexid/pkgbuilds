@@ -1,10 +1,10 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 
 COLORS=()
 ALTCOLORS=()
 
 config_replace_eol() {
-	sed -r -i config.def.h -e "/$1/ c\\$1 $2"
+	sed -r -i config.def.h -e "s#($1).*#\1 $2#"
 }
 config_replace_lines_between() {
 	_tmp="$(mktemp)"
@@ -15,11 +15,20 @@ config_replace_lines_between() {
 		p' config.def.h > "$_tmp" && mv "$_tmp" config.def.h
 }
 
+# args: firstLine secondLine lineMatch replacement
+config_replace_line_between() {
+	sed -r -i config.def.h -e "/$1/,/$2/{s/$3/$4/}"
+}
+
 read_xresources() {
-	while read -r key val; do
-		case "$(echo "$key" | sed -re 's/([^\s]*):$/\1/')" in
+	while read -r _key val; do
+		key="$(printf '%s' "$_key" | sed -re 's/([^\s]*):$/\1/')"
+		case "$key" in
+			*borderpx)
+				config_replace_eol 'static int borderpx =' "$val;"
+				;;
 			*color*)
-				COLORS["$(echo $key | sed 's/[^0-9]//g')"]="$val"
+				COLORS["$(printf '%s' "$key" | sed 's/[^0-9]//g')"]="$val"
 				;;
 			*cursorColor)
 				ALTCOLORS[0]="$val"
@@ -38,6 +47,11 @@ read_xresources() {
 				;;
 			*modkey)
 				config_replace_eol '#define MODKEY' "$val"
+				;;
+			*mouse*)
+				button="$(printf '%s' "$key" | sed 's/[^0-9]//g')"
+				escaped="$(printf '%s' "$val" | sed 's/[\/&]/\\&/g')"
+				config_replace_line_between '^static Mousekey mshortcuts\[\] = \{' '^\};' "(Button$button,\s+[^\s]+\s+).*" "\1$escaped \},"
 				;;
 			*tabspaces)
 				config_replace_eol 'static unsigned int tabspaces =' "$val;"
@@ -59,11 +73,6 @@ print_colors() {
 		printf '\t[%d] = "%s",\n' "$((256+i))" "${ALTCOLORS[i]}"
 	done
 }
-print_buttons() {
-	echo '	/* button               mask            string */
-	{ Button4,              XK_ANY_MOD,     "\\033[A" },
-	{ Button5,              XK_ANY_MOD,     "\\033[B" },'
-}
 
 #
 # Actually run everything
@@ -73,7 +82,6 @@ config_replace_eol 'static char shell\[\] =' "\"$SHELL\";"
 
 read_xresources
 
-if ((${#COLORS} + ${#ALTCOLORS})); then
+if ((${#COLORS[@]} + ${#ALTCOLORS[@]})); then
 	config_replace_lines_between '^static const char \\*colorname\\[\\] = {' "$(print_colors)" '^};'
 fi
-config_replace_lines_between '^static Mousekey mshortcuts\\[\\] = {' "$(print_buttons)" '^};'
