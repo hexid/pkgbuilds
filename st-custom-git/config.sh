@@ -55,7 +55,7 @@ read_xresources() {
 			*mouse*)
 				button="$(printf '%s' "$key" | sed 's/[^0-9]//g')"
 				escaped="$(printf '%s' "$val" | sed 's/[\/&]/\\&/g')"
-				config_replace_line_between '^static Mousekey mshortcuts\[\] = \{' '^\};' "(Button$button,\s+[^\s]+\s+).*" "\1$escaped \},"
+				config_replace_line_between '^static MouseShortcut mshortcuts\[\] = \{' '^\};' "(Button$button,\s+[^\s]+\s+).*" "\1$escaped \},"
 				;;
 			*tabspaces)
 				config_replace_eol 'static unsigned int tabspaces =' "$val;"
