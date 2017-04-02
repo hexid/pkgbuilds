@@ -1,0 +1,9 @@
+[Trigger]
+Operation = Upgrade
+Type = File
+Target = usr/lib/modules/*
+
+[Action]
+Description = Kernel Module Backups - Link
+When = PostTransaction
+Exec = /usr/share/libalpm/scripts/kernel-module-backup postupgrade

@@ -1,0 +1,23 @@
+pkgname=kernel-module-backup
+pkgver=0.1.1
+pkgrel=1
+pkgdesc='Kernel Module Backup Hooks'
+arch=('any')
+url='https://github.com/hexid/pkgbuilds'
+license=('MIT')
+depends=('bash')
+source=('hook.postupgrade'
+        'hook.preupgrade'
+        'hook.remove'
+        'hook.sh')
+sha512sums=('f3c7702a170346e33a330e4c96cd120d31f0fc925f6b2da345b4f3570659b27a7ef9ef4be847a8d9b74f493e7f687621ea85c006c623a501dbebc8ae66b21757'
+            'e37e90742810058c07e2bc205e6ff4ed55fadf417c15ca172095773bb98e47f9d93af689f732be53cdc47e2c0885ebe79338a5cba8fc458a7bfd1bbe123b5b06'
+            '1ae4a855ea5160532b090fc84c042e21416d56c6ce7156101a48b0227009fac025de2a2e0b4fb8fc657db1dae0f9638c60891c4630f37ed362438ef1e0d931c5'
+            '9c7656fe81fd5999393023bea22b208b5823ea3beef92cd4071e885753a87ec1347f99fc3401dca85a64d2ac8ba91256becd74d7e295e10102e8fe28a12665ce')
+
+package() {
+	install -D -m 644 hook.postupgrade "$pkgdir/usr/share/libalpm/hooks/70-kernel-modules-postupgrade.hook"
+	install -D -m 644 hook.preupgrade "$pkgdir/usr/share/libalpm/hooks/60-hernel-modules-preupgrade.hook"
+	install -D -m 644 hook.remove "$pkgdir/usr/share/libalpm/hooks/60-kernel-modules-remove.hook"
+	install -D -m 755 hook.sh "$pkgdir/usr/share/libalpm/scripts/kernel-module-backup"
+}
