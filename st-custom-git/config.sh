@@ -25,29 +25,29 @@ read_xresources() {
 		key="$(printf '%s' "$_key" | sed -re 's/([^\s]*):$/\1/')"
 		case "$key" in
 			*borderpx)
-				config_replace_eol 'static int borderpx =' "$val;"
+				config_replace_eol 'int borderpx =' "$val;"
 				;;
 			*color*)
 				COLORS["$(printf '%s' "$key" | sed 's/[^0-9]//g')"]="$val"
 				;;
 			*cursorColor)
 				ALTCOLORS[0]="$val"
-				config_replace_eol 'static unsigned int defaultcs =' '256;'
+				config_replace_eol 'unsigned int defaultcs =' '256;'
 				;;
 			*cursorRev)
 				ALTCOLORS[1]="$val"
-				config_replace_eol 'static unsigned int defaultrcs =' '257;'
+				config_replace_eol 'unsigned int defaultrcs =' '257;'
 				;;
 			*background)
 				ALTCOLORS[2]="$val"
-				config_replace_eol 'static unsigned int defaultbg =' '258;'
+				config_replace_eol 'unsigned int defaultbg =' '258;'
 				;;
 			*foreground)
 				ALTCOLORS[3]="$val"
-				config_replace_eol 'static unsigned int defaultfg =' '259;'
+				config_replace_eol 'unsigned int defaultfg =' '259;'
 				;;
 			*font)
-				config_replace_eol 'static char font\[\] =' "\"$val\";"
+				config_replace_eol 'char font\[\] =' "\"$val\";"
 				;;
 			*modkey)
 				config_replace_eol '#define MODKEY' "$val"
@@ -87,5 +87,5 @@ config_replace_eol 'static char shell\[\] =' "\"$SHELL\";"
 read_xresources
 
 if ((${#COLORS[@]} + ${#ALTCOLORS[@]})); then
-	config_replace_lines_between '^static const char \\*colorname\\[\\] = {' "$(print_colors)" '^};'
+	config_replace_lines_between '^const char \\*colorname\\[\\] = {' "$(print_colors)" '^};'
 fi
