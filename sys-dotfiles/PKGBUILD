@@ -1,0 +1,77 @@
+pkgbase=sys-dotfiles
+pkgname=(sys-dotfiles sys-dotfiles-xorg)
+pkgver=0.1.0
+pkgrel=2
+pkgdesc='system dotfiles'
+arch=('any')
+url='https://github.com/hexid/pkgbuilds'
+
+source=(
+	'etc_locale.conf'
+	'etc_vconsole.conf'
+	'modprobe_pcspkr.conf'
+	'pacman_check-boot.hook'
+	'pacman_sync.hook'
+	'zsh_zshenv'
+)
+
+md5sums=(
+	'e24819fd5acc025b5b307b77bb871f65'
+	'363d1b98421f052a095af688c2b4fc5a'
+	'3866086e6af5e3528a66eff492f2f4dd'
+	'96d59a4bb769688f3271c5d2f0e36892'
+	'f01801e1fba8be42c9ac9a64c62eebaa'
+	'633fd10957b1599a66c8f2418defd3d9'
+)
+
+package_sys-dotfiles() {
+	pkgdesc='common system dotfiles'
+	depends=(
+		'dkms'
+		'git'
+		'neovim'
+		'openssh'
+		'sudo'
+		'tmux'
+		'zsh'
+	)
+
+	install -Dm0644 etc_locale.conf "${pkgdir}"/etc/locale.conf
+	install -Dm0644 etc_vconsole.conf "${pkgdir}"/etc/vconsole.conf
+
+	install -Dm0644 modprobe_pcspkr.conf "${pkgdir}"/etc/modprobe.d/pcspkr.conf
+
+	install -Dm0644 pacman_check-boot.hook "${pkgdir}"/etc/pacman.d/hooks/00-check-boot.hook
+	install -Dm0644 pacman_sync.hook "${pkgdir}"/etc/pacman.d/hooks/sync.hook
+
+	install -Dm0644 zsh_zshenv "${pkgdir}"/etc/zsh/zshenv
+
+	ln -sf /usr/share/zoneinfo/America/New_York "${pkgdir}"/etc/localtime
+}
+
+package_sys-dotfiles-xorg() {
+	pkgdesc='xorg system dotfiles'
+	depends=(
+		'sys-dotfiles'
+
+		'arandr'
+		'chromium'
+		'dmenu'
+		'dunst'
+		'feh'
+		'herbstluftwm'
+		'maim'
+		'pavucontrol'
+		'sxhkd'
+		'ttf-dejavu'
+		'ttf-font-awesome'
+		'xorg-server'
+		'xorg-xinit'
+
+		'slock-custom-git'
+		'st-custom-git'
+
+		'equilux-theme'
+		'lemonbar-xft-git'
+	)
+}
