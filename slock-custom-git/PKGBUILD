@@ -1,6 +1,6 @@
 pkgname=slock-custom-git
 _pkgname=slock
-pkgver=69.0edbd2e
+pkgver=122.2d2a21a
 pkgrel=1
 pkgdesc='Simple X display locker'
 url='http://tools.suckless.org/slock'
@@ -30,7 +30,8 @@ build() {
 
 	sed -i config.def.h \
 		-e 's/#005577/#a7a7a7/' \
-		-e 's/failonclear = True/failonclear = False/'
+		-e 's/failonclear = 1/failonclear = 0/' \
+		-e 's/group = "nogroup"/group = "nobody"/'
 
 	make X11INC=/usr/include/X11 X11LIB=/usr/lib/X11
 }
