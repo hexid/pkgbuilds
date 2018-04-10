@@ -1,9 +1,0 @@
-[Trigger]
-Operation = Remove
-Type = File
-Target = usr/lib/modules/*
-
-[Action]
-Description = Kernel Module Backups - Cleanup
-When = PostTransaction
-Exec = /usr/share/libalpm/scripts/kernel-module-backup remove
