@@ -2,7 +2,7 @@
 
 pkgname=st-custom-git
 _pkgname=st
-pkgver=971.5a10aca
+pkgver=1070.f1546cf
 pkgrel=1
 _gitbranch=HEAD
 pkgdesc='Simple virtual terminal emulator for X'

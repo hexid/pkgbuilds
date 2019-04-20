@@ -46,8 +46,8 @@ read_xresources() {
 				ALTCOLORS[3]="$val"
 				config_replace_eol 'unsigned int defaultfg =' '259;'
 				;;
-			*font)
-				config_replace_eol 'char font\[\] =' "\"$val\";"
+			\*font)
+				config_replace_eol 'char \*font =' "\"$val\";"
 				;;
 			*modkey)
 				config_replace_eol '#define MODKEY' "$val"
@@ -55,7 +55,7 @@ read_xresources() {
 			*mouse*)
 				button="$(printf '%s' "$key" | sed 's/[^0-9]//g')"
 				escaped="$(printf '%s' "$val" | sed 's/[\/&]/\\&/g')"
-				config_replace_line_between '^static MouseShortcut mshortcuts\[\] = \{' '^\};' "(Button$button,\s+[^\s]+\s+).*" "\1$escaped \},"
+				config_replace_line_between 'MouseShortcut mshortcuts\[\] = \{' '^\};' "(Button$button,\s+[^\s]+\s+).*" "\1$escaped \},"
 				;;
 			*tabspaces)
 				config_replace_eol 'static unsigned int tabspaces =' "$val;"
@@ -82,10 +82,10 @@ print_colors() {
 # Actually run everything
 #
 
-config_replace_eol 'static char shell\[\] =' "\"$SHELL\";"
+config_replace_eol 'static char \*shell =' "\"$SHELL\";"
 
 read_xresources
 
 if ((${#COLORS[@]} + ${#ALTCOLORS[@]})); then
-	config_replace_lines_between '^const char \\*colorname\\[\\] = {' "$(print_colors)" '^};'
+	config_replace_lines_between 'const char \\*colorname\\[\\] = {' "$(print_colors)" '^};'
 fi
