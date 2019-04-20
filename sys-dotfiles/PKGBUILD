@@ -1,7 +1,7 @@
 pkgbase=sys-dotfiles
 pkgname=(sys-dotfiles sys-dotfiles-xorg)
-pkgver=0.1.0
-pkgrel=2
+pkgver=0.1.1
+pkgrel=1
 pkgdesc='system dotfiles'
 arch=('any')
 url='https://github.com/hexid/pkgbuilds'
@@ -15,14 +15,12 @@ source=(
 	'zsh_zshenv'
 )
 
-md5sums=(
-	'e24819fd5acc025b5b307b77bb871f65'
-	'363d1b98421f052a095af688c2b4fc5a'
-	'3866086e6af5e3528a66eff492f2f4dd'
-	'96d59a4bb769688f3271c5d2f0e36892'
-	'f01801e1fba8be42c9ac9a64c62eebaa'
-	'633fd10957b1599a66c8f2418defd3d9'
-)
+md5sums=('e24819fd5acc025b5b307b77bb871f65'
+         '363d1b98421f052a095af688c2b4fc5a'
+         '3866086e6af5e3528a66eff492f2f4dd'
+         '96d59a4bb769688f3271c5d2f0e36892'
+         'f01801e1fba8be42c9ac9a64c62eebaa'
+         '19e9253e0d19cb09242142398d92f160')
 
 package_sys-dotfiles() {
 	pkgdesc='common system dotfiles'
@@ -55,16 +53,15 @@ package_sys-dotfiles-xorg() {
 		'sys-dotfiles'
 
 		'arandr'
-		'chromium'
 		'dmenu'
 		'dunst'
 		'feh'
 		'herbstluftwm'
 		'maim'
+		'otf-font-awesome'
 		'pavucontrol'
 		'sxhkd'
 		'ttf-dejavu'
-		'ttf-font-awesome'
 		'xorg-server'
 		'xorg-xinit'
 
@@ -72,6 +69,7 @@ package_sys-dotfiles-xorg() {
 		'st-custom-git'
 
 		'equilux-theme'
-		'lemonbar-xft-git'
+		'firefox-developer-edition'
+		'polybar'
 	)
 }
