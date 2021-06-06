@@ -57,9 +57,9 @@ read_xresources() {
 				escaped="$(printf '%s' "$val" | sed 's/[\/&]/\\&/g')"
 				config_replace_line_between 'MouseShortcut mshortcuts\[\] = \{' '^\};' "(Button$button,\s+[^\s]+\s+).*" "\1$escaped \},"
 				;;
-			*tabspaces)
-				config_replace_eol 'static unsigned int tabspaces =' "$val;"
-				;;
+			#*tabspaces)
+			#	config_replace_eol 'static unsigned int tabspaces =' "$val;"
+			#	;;
 			*)
 				echo "unknown appres : $key --> $val"
 				;;
