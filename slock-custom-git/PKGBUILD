@@ -1,6 +1,6 @@
 pkgname=slock-custom-git
 _pkgname=slock
-pkgver=122.2d2a21a
+pkgver=123.35633d4
 pkgrel=1
 pkgdesc='Simple X display locker'
 url='http://tools.suckless.org/slock'
@@ -12,7 +12,7 @@ source=("$_pkgname::git://git.suckless.org/slock")
 sha1sums=('SKIP')
 
 provides=("$_pkgname")
-conflicts=("$_pkgname" "$_pkgname-git")
+conflicts=("$_pkgname" "${_pkgname}-git")
 
 pkgver() {
 	cd "$srcdir/$_pkgname"
