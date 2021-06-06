@@ -1,6 +1,6 @@
 pkgbase=sys-dotfiles
 pkgname=(sys-dotfiles sys-dotfiles-xorg)
-pkgver=0.1.1
+pkgver=0.1.2
 pkgrel=1
 pkgdesc='system dotfiles'
 arch=('any')
@@ -25,13 +25,23 @@ md5sums=('e24819fd5acc025b5b307b77bb871f65'
 package_sys-dotfiles() {
 	pkgdesc='common system dotfiles'
 	depends=(
-		'dkms'
+		'arch-audit'
 		'git'
+		'htop'
+		'kernel-modules-hook'
 		'neovim'
 		'openssh'
 		'sudo'
+		'systemd-boot-pacman-hook'
 		'tmux'
 		'zsh'
+	)
+	optdepends=(
+		'direnv'
+		'hwinfo'
+		'moreutils'
+		'syncthing'
+		'wireguard-tools'
 	)
 
 	install -Dm0644 etc_locale.conf "${pkgdir}"/etc/locale.conf
@@ -56,8 +66,8 @@ package_sys-dotfiles-xorg() {
 		'dmenu'
 		'dunst'
 		'feh'
+		'flameshot'
 		'herbstluftwm'
-		'maim'
 		'otf-font-awesome'
 		'pavucontrol'
 		'sxhkd'
@@ -71,5 +81,13 @@ package_sys-dotfiles-xorg() {
 		'equilux-theme'
 		'firefox-developer-edition'
 		'polybar'
+	)
+	optdepends=(
+		'baobab: visual disk usage'
+		'code: text editor'
+		'openrgb: rgb light configuration'
+		'picard: music tag editor'
+		'piper: mouse configuration'
+		'transmission-remote-gtk: torrent monitor'
 	)
 }
